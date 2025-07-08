@@ -1,0 +1,325 @@
+/* Basic Reset & Box Sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif; /* Modern, readable font */
+  background-color: #f0f2f5; /* Very light gray background for the page */
+  color: #333; /* Dark gray for primary text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling if not needed */
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes header and footer to ends */
+  align-items: center;
+  width: 100%;
+  max-width: 600px; /* Max width for larger mobiles/tablets */
+  height: 100vh; /* Take full height on mobile */
+  padding: 2vh 3vw; /* Responsive padding */
+  background-color: #ffffff; /* Pure white background for the main container */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Soft, subtle shadow */
+  border-radius: 12px; /* Nicely rounded corners */
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 2vh;
+  width: 100%; /* Ensure header takes full width */
+}
+
+.game-header h1 {
+  font-size: 8vw; /* Responsive font size */
+  margin-bottom: 1vh;
+  color: #007bff; /* Bright blue, a friendly accent */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Very subtle text shadow */
+}
+
+.score-info p {
+  font-size: 4vw; /* Responsive font size */
+  margin: 0.5vh 0;
+  color: #555; /* Slightly lighter gray for score labels */
+}
+
+.score-info span {
+  font-weight: bold;
+  color: #28a745; /* Vibrant green for scores */
+}
+
+.game-content {
+  flex-grow: 1; /* Allows content to take available space */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+  width: 100%;
+  padding: 2vh 0;
+}
+
+.flag-display {
+  width: 90%; /* Responsive width for flag container */
+  max-width: 300px; /* Max width for the flag image */
+  height: 20vh; /* Responsive height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8vh;
+  position: relative; /* For feedback message positioning */
+  background-color: #e9ecef; /* Light background for the flag area */
+  border-radius: 8px;
+  padding: 1vh;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
+}
+
+.flag-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.feedback {
+  position: absolute;
+  bottom: -5vh; /* Position below the flag */
+  width: 100%;
+  text-align: center;
+  font-size: 5vw;
+  font-weight: bold;
+  padding: 1vh;
+  border-radius: 5px;
+  animation: fadeInOut 1.5s forwards; /* Animation for feedback */
+}
+
+.feedback-correct {
+  color: #28a745; /* Green */
+  background-color: rgba(
+    40,
+    167,
+    69,
+    0.15
+  ); /* Lighter, subtle green background */
+}
+
+.feedback-wrong {
+  color: #dc3545; /* Red */
+  background-color: rgba(
+    220,
+    53,
+    69,
+    0.15
+  ); /* Lighter, subtle red background */
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  gap: 2vw; /* Responsive gap between buttons */
+  width: 100%; /* Take full width of parent */
+  max-width: 500px; /* Max width for the grid */
+  margin-top: 2vh;
+}
+
+.option-button {
+  background-color: #007bff; /* Bright blue for active options */
+  color: white;
+  padding: 2.5vh 1.5vw; /* Larger padding for touch */
+  border: none;
+  border-radius: 8px;
+  font-size: 4.5vw; /* Responsive font size */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease,
+    box-shadow 0.2s ease;
+  min-height: 8vh; /* Ensure buttons have a minimum height */
+  display: flex; /* For centering text */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2); /* Soft shadow for depth */
+}
+
+.option-button:hover:not(:disabled) {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.option-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 123, 255, 0.2);
+}
+
+.option-button:disabled {
+  background-color: #ced4da; /* Light gray when disabled */
+  color: #888; /* Slightly darker text for contrast */
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none; /* No shadow when disabled */
+}
+
+/* Feedback specific button styles */
+.option-button.correct {
+  background-color: #28a745; /* Green for correct */
+  color: white;
+  box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
+}
+
+.option-button.wrong {
+  background-color: #dc3545; /* Red for wrong */
+  color: white;
+  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);
+}
+
+.option-button.hint-disabled {
+  background-color: #e9ecef; /* Very light gray for hint disabled */
+  color: #b0b5ba; /* Subtle gray text */
+  border: 1px dashed #adb5bd; /* Dashed border to indicate disabled by hint */
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.game-controls {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Center hint button */
+  margin-top: 2vh;
+}
+
+.control-button {
+  background-color: #ffc107; /* Warm yellow for hint */
+  color: #333; /* Dark text for contrast */
+  padding: 2.5vh 5vw; /* Larger padding for touch */
+  border: none;
+  border-radius: 8px;
+  font-size: 5vw; /* Responsive font size */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease,
+    box-shadow 0.2s ease;
+  flex-grow: 1; /* Allow button to grow if needed */
+  max-width: 50%; /* Max width for hint button */
+  box-shadow: 0 2px 5px rgba(255, 193, 7, 0.2);
+}
+
+.control-button:hover:not(:disabled) {
+  background-color: #e0a800; /* Darker yellow on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+.control-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(255, 193, 7, 0.2);
+}
+
+.control-button:disabled {
+  background-color: #adb5bd; /* Muted gray when disabled */
+  color: #6c757d; /* Darker text for contrast */
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none;
+}
+
+.game-over-screen {
+  text-align: center;
+  padding: 4vh;
+  background-color: #f8f9fa; /* Very light background for game over screen */
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  margin: auto; /* Center it */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Clearer shadow */
+}
+
+.game-over-screen h2 {
+  font-size: 7vw;
+  color: #dc3545; /* Red for game over */
+  margin-bottom: 2vh;
+}
+
+.game-over-screen p {
+  font-size: 5vw;
+  margin-bottom: 4vh;
+  color: #555;
+}
+
+.game-over-screen .start-button {
+  background-color: #28a745; /* Green for New Game */
+  color: white;
+  padding: 3vh 6vw;
+  font-size: 6vw;
+  width: 80%; /* Make it wider */
+  max-width: 300px;
+  box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
+}
+
+.game-over-screen .start-button:hover {
+  background-color: #218838;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+}
+
+/* Media Query for larger mobile devices or small tablets */
+@media (min-width: 480px) {
+  .game-header h1 {
+    font-size: 36px;
+  }
+  .score-info p {
+    font-size: 18px;
+  }
+  .feedback {
+    font-size: 24px;
+    bottom: -30px;
+  }
+  .option-button {
+    font-size: 20px;
+    padding: 15px 10px;
+  }
+  .control-button {
+    font-size: 22px;
+    padding: 15px 30px;
+  }
+  .game-over-screen h2 {
+    font-size: 32px;
+  }
+  .game-over-screen p {
+    font-size: 24px;
+  }
+  .game-over-screen .start-button {
+    font-size: 26px;
+    padding: 20px 40px;
+  }
+}
