@@ -71,7 +71,7 @@ body {
   width: 100%;
   padding: 2vh 0;
   /* Add min-height to ensure it takes enough space even with small content,
-     but allows flex-grow to handle the rest */
+    but allows flex-grow to handle the rest */
   min-height: 200px; /* Adjust as needed for minimal content */
 }
 
@@ -82,12 +82,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8vh;
+  margin-bottom: 10px;
   position: relative; /* For feedback message positioning */
   background-color: #e9ecef; /* Light background for the flag area */
   border-radius: 8px;
   padding: 1vh;
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
+  overflow: hidden; /* Hide anything that goes beyond this container */
 }
 
 .flag-image {
@@ -98,37 +99,46 @@ body {
 
 .feedback {
   position: absolute;
-  bottom: -5vh; /* Position below the flag */
+  top: 0; /* Position at the top of the flag-display */
+  left: 0; /* Align left */
   width: 100%;
+  height: 100%; /* Take full height of flag-display */
+  display: flex; /* Use flexbox to center content */
+  justify-content: center;
+  align-items: center;
   text-align: center;
   font-size: 5vw;
   font-weight: bold;
   padding: 1vh;
   border-radius: 5px;
-  animation: fadeInOut 1.5s forwards; /* Animation for feedback */
+  z-index: 10; /* Ensure it's on top */
+  opacity: 1; /* Full opacity */
+  animation: none; /* Remove existing animation */
+  pointer-events: none; /* Allow clicks to pass through to the flag below */
 }
 
 .feedback-correct {
-  color: #28a745; /* Green */
+  color: #fff; /* White text for better contrast on solid background */
   background-color: rgba(
     40,
     167,
     69,
-    0.15
-  ); /* Lighter, subtle green background */
+    0.85
+  ); /* Solid green with slight transparency for flag peek */
 }
 
 .feedback-wrong {
-  color: #dc3545; /* Red */
+  color: #fff; /* White text for better contrast on solid background */
   background-color: rgba(
     220,
     53,
     69,
-    0.15
-  ); /* Lighter, subtle red background */
+    0.85
+  ); /* Solid red with slight transparency for flag peek */
 }
 
-@keyframes fadeInOut {
+/* Remove the @keyframes fadeInOut as it's no longer needed */
+/* @keyframes fadeInOut {
   0% {
     opacity: 0;
     transform: translateY(10px);
@@ -145,7 +155,7 @@ body {
     opacity: 0;
     transform: translateY(-10px);
   }
-}
+} */
 
 .options-grid {
   display: grid;
@@ -198,13 +208,13 @@ body {
 .option-button.correct {
   background-color: #28a745; /* Green for correct */
   color: white;
-  box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 2px 5px rgb(40, 167, 70);
 }
 
 .option-button.wrong {
   background-color: #dc3545; /* Red for wrong */
   color: white;
-  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);
+  box-shadow: 0 2px 5px rgb(220, 53, 70);
 }
 
 .option-button.hint-disabled {
@@ -221,7 +231,7 @@ body {
   justify-content: center; /* Center hint button */
   margin-top: 2vh;
   /* Add margin-bottom to ensure space below the hint button as well,
-     especially useful when the game-over-screen is not active */
+      especially useful when the game-over-screen is not active */
   margin-bottom: 2vh;
 }
 
@@ -311,7 +321,9 @@ body {
   }
   .feedback {
     font-size: 24px;
-    bottom: -30px;
+    /* Reset bottom position for larger screens if it was adjusted specifically for smaller */
+    bottom: unset; /* Remove previous specific bottom adjustment */
+    top: 0; /* Ensure it stays at the top */
   }
   .option-button {
     font-size: 20px;

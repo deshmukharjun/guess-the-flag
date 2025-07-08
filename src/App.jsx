@@ -7,6 +7,7 @@ const initialState = {
   score: 0,
   highScore: parseInt(localStorage.getItem('HIGH_SCORE')) || 0,
   hintsLeft: 3,
+  livesLeft: 3, // Added livesLeft
   streak: 0,
   correctAnswer: '',
   options: [],
@@ -98,14 +99,18 @@ function gameReducer(state, action) {
     case ACTION_TYPES.ANSWER_INCORRECTLY: {
       if (state.isAnswering || state.gameEnded) return state;
 
+      const newLivesLeft = state.livesLeft - 1;
+      const gameOver = newLivesLeft <= 0;
+
       return {
         ...state,
-        score: 0,
-        streak: 0,
-        feedbackMessage: `Wrong! It was ${state.correctAnswer}.`,
+        livesLeft: newLivesLeft,
+        streak: 0, // Reset streak on incorrect answer
+        feedbackMessage: `Wrong! It was ${state.correctAnswer}. You have ${newLivesLeft} lives left.`,
         selectedOptionIndex: action.payload.index,
         isAnswering: true,
-        gameEnded: true,
+        gameEnded: gameOver,
+        score: gameOver ? state.score : 0, // Reset score only if game ends
       };
     }
 
@@ -130,9 +135,10 @@ function gameReducer(state, action) {
     case ACTION_TYPES.START_NEW_GAME: {
       return {
         ...initialState,
-        highScore: state.highScore,
+        highScore: state.highScore, // Preserve high score
         gameEnded: false,
         hintsLeft: 3,
+        livesLeft: 3, // Reset lives for new game
       };
     }
 
@@ -149,6 +155,7 @@ function App() {
     score,
     highScore,
     hintsLeft,
+    livesLeft, // Destructure livesLeft
     streak,
     correctAnswer,
     options,
@@ -167,7 +174,7 @@ function App() {
     }
   }, [gameEnded]);
 
-  // Automatically load next question after a correct answer
+  // Automatically load next question after a correct answer or if lives are remaining
   useEffect(() => {
     if (isAnswering && !gameEnded) {
       const timeout = setTimeout(() => {
@@ -175,7 +182,11 @@ function App() {
       }, 1500);
       return () => clearTimeout(timeout);
     }
-  }, [isAnswering, gameEnded]);
+    // If game ended due to lives running out, do not generate a new question immediately
+    if (isAnswering && gameEnded && livesLeft === 0) {
+        // Do nothing, let the game over screen show
+    }
+  }, [isAnswering, gameEnded, livesLeft]); // Add livesLeft to dependency array
 
   const handleAnswer = (option, index) => {
     if (isAnswering || gameEnded) return;
@@ -213,6 +224,7 @@ function App() {
           <p>Score: <span>{score}</span></p>
           <p>High Score: <span>{highScore}</span></p>
           <p>Streak: <span>{streak}</span></p>
+          <p>Lives: <span>{livesLeft}</span></p> {/* Display livesLeft */}
         </div>
       </header>
 
